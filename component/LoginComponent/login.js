@@ -1,19 +1,47 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from 'react-router-native';
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+const LoginScreen = ({ navigation }) => {
+  const [mail, setMail] = useState('');
+  const [mot_de_passe, setMot_de_passe] = useState('');
+  const API_URL = 'http://localhost:5000/api/users/login'; 
+  navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (!email || !password) {
+  const handleLogin = async () => {
+    if (!mail || !mot_de_passe) {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
       return;
     }
-    navigate('/');
-    
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mail, mot_de_passe }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur de connexion');
+      }
+
+      if (Platform.OS === 'web') {
+        localStorage.setItem('token', data.token);
+      } else {
+        await AsyncStorage.setItem('token', data.token);
+      }
+
+      Alert.alert('Succès', 'Connexion réussie');
+      navigate('/home');
+
+    } catch (error) {
+      Alert.alert('Erreur', error.message);
+    }
   };
 
   return (
@@ -25,23 +53,25 @@ const LoginScreen = () => {
         placeholder="Email"
         keyboardType="email-address"
         autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
+        value={mail}
+        onChangeText={setMail}
       />
 
       <TextInput
         style={styles.input}
         placeholder="Mot de passe"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+        value={mot_de_passe}
+        onChangeText={setMot_de_passe}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      <Text style={styles.registerText}>Pas encore de compte ? S'inscrire</Text>
+      <Text style={styles.registerText} onPress={() => navigation.navigate('Register')}>
+        Pas encore de compte ? S'inscrire
+      </Text>
     </View>
   );
 };

@@ -10,9 +10,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const items = [
-    { label: 'Accueil', icon: <AntDesign name="home" size={20} color="black" />, command: () => navigate('/') },
+    { label: 'Accueil', icon: <AntDesign name="home" size={20} color="black" />, command: () => navigate('/home') },
     { label: 'Tips', icon: <AntDesign name="bulb1" size={20} color="black" />, command: () => navigate('/tips') },
-    { label: 'Communauté', icon: <AntDesign name="team" size={20} color="black" />, command: () => navigate('/login') },
+    { label: 'Communauté', icon: <AntDesign name="team" size={20} color="black" />, command: () => navigate('/communaute') },
   ];
 
   return (
