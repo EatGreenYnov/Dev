@@ -49,4 +49,3 @@ const NavbarContent = styled.div`
 const ContentWrapper = styled.div`
   padding-top: 60px; /* Ajuste le padding pour éviter que le contenu soit caché sous la navbar */
 `;
-
