@@ -1,11 +1,11 @@
 import Tips from '../component/TipsComponent/tips';
 import styled from 'styled-components';
-import Navbar from '../component/HomeComponent/NavBar';
+// import Navbar from '../component/HomeComponent/NavBar';
 
 const TipsScreen = () => {
   return (
   <PageContainer>
-        <Navbar />
+        {/* <Navbar /> */}
     <Tips />
   </PageContainer>
   );

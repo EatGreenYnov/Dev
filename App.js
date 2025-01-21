@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import Platform from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import Page_Defi from './View/Page_defi/Page_Defi';
 import CardComponent from './Composant/CardCompanent/CardComponent';  
@@ -9,9 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';   
 import Route from './route/router'; 
-import Page_Defi from './View/Page_defi/Page_Defi';
-import Navbar from './Composant/Navbar/Navbar';
-import { StyleSheet, View, Text } from 'react-native';
+// import Login from './View/login';
 
 const Accueil = () => (
   <View style={styles.screen}>

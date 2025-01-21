@@ -1,12 +1,12 @@
 import React from 'react';
-import Navbar from '../component/HomeComponent/NavBar';
+// import Navbar from '../component/HomeComponent/NavBar';
 import styled from 'styled-components';
 import Profile from '../component/ProfileComponent/Profile';
 
 const Screen = () => {
   return (
     <PageContainer>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <Content>
         <Profile />

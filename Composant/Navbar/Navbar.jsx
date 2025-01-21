@@ -9,8 +9,8 @@ function Navbar() {
     <View style={styles.navbar}>
       {/* <Image source={require('../../assets/logo/chantallogo.jpg')} style={styles.logo} /> */}
       <View style={styles.linksContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Accueil')}>
-          <Text style={styles.link}>Accueil</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Acceuil')}>
+          <Text style={styles.link}>Acceuil</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Plats')}>
           <Text style={styles.link}>Plats</Text>
