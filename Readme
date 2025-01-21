@@ -1,0 +1,12 @@
+"""Pour l'application mobile :
+Dans le terminal, tapez "npm i" pour installer les dépendances.
+Ensuite, tapez "npm run start".
+Cela lancera l'application.
+Un QR code apparaîtra.
+Avant de scanner le QR code, vous devez télécharger l'application Expo Go depuis l'App Store ou le Play Store.
+Une fois un compte créé sur Expo Go, assurez-vous que votre téléphone soit connecté au même réseau que l'ordinateur (le wifi d'Ynnov ne fonctionne pas pour cela).
+Une fois sur le même réseau, ouvrez votre caméra et scannez le QR code. Il vous proposera d'ouvrir Expo Go.
+Une fois dedans, l'application commencera à se charger (si cela génère un "timeout", cela signifie que vous n'êtes pas sur le même réseau).
+L'application s'ouvrira alors.
+Vous pouvez maintenant naviguer entre les pages "Accueil", "Défi" et "Classement".
+Petite spécificité de la page "Défi" : si vous cochez tous les défis, une pop-up s'ouvrira pour vous féliciter d'avoir tout complété."""

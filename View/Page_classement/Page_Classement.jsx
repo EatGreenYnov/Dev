@@ -1,44 +1,59 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import avatar from '../../assets/ishigami_senku_18427.png'; // Assurez-vous que le chemin est correct
+import { ScrollView, View, StyleSheet, Text } from 'react-native';
+import ProfileclassCard from '../../Composant/CardCompanent/profilClassCard';
+import avatar from '../../assets/ishigami_senku_18427.png';
+import Navbar from '../../Composant/Navbar/Navbar';
 
 export default function Page_Classement() {
-  // Exemple de données de classement
-  const classementData = [
-    { firstName: 'John', lastName: 'Doe', points: 1200, ranking: '1er' },
-    { firstName: 'Jane', lastName: 'Smith', points: 1100, ranking: '2ème' },
-    { firstName: 'Alan', lastName: 'Turing', points: 900, ranking: '3ème' },
-    { firstName: 'Ada', lastName: 'Lovelace', points: 850, ranking: '4ème' },
-    { firstName: 'Grace', lastName: 'Hopper', points: 800, ranking: '5ème' },
-    { firstName: 'Charles', lastName: 'Babbage', points: 780, ranking: '6ème' },
-    { firstName: 'Marie', lastName: 'Curie', points: 750, ranking: '7ème' },
-    { firstName: 'Nikola', lastName: 'Tesla', points: 700, ranking: '8ème' },
+  // Données pour "Votre classement"
+  const yourRanking = {
+    firstName: 'John',
+    lastName: 'Doe',
+    statusText: '100 points',
+    image: avatar,
+  };
+
+  // Données pour le classement global
+  const globalRankingData = [
+    { id: 1, firstName: 'John', lastName: 'Doe', points: 100 },
+    { id: 2, firstName: 'Jane', lastName: 'Smith', points: 90 },
+    { id: 3, firstName: 'Alice', lastName: 'Johnson', points: 85 },
+    { id: 4, firstName: 'Bob', lastName: 'Brown', points: 80 },
+    { id: 5, firstName: 'Charlie', lastName: 'Miller', points: 75 },
+    { id: 6, firstName: 'Diana', lastName: 'White', points: 70 },
+    { id: 7, firstName: 'Eve', lastName: 'Davis', points: 65 },
+    { id: 8, firstName: 'Frank', lastName: 'Thomas', points: 60 },
+    { id: 9, firstName: 'Grace', lastName: 'Lee', points: 55 },
+    { id: 10, firstName: 'Hank', lastName: 'Taylor', points: 50 },
   ];
 
   return (
+  
     <View style={styles.container}>
-      {/* Affichage du profil en haut */}
-      <View style={styles.profileCard}>
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>John Doe</Text>
-          <Text style={styles.profileRanking}>Classement : 1er</Text>
-        </View>
-        <View style={styles.profileImageContainer}>
-          <img src={avatar} alt="Profile" style={styles.profileImage} />
-        </View>
+      <Navbar />
+      {/* Section "Votre classement" */}
+      <Text style={styles.sectionTitle}>Votre classement</Text>
+      <View style={styles.yourRanking}>
+        <ProfileclassCard
+          firstName={yourRanking.firstName}
+          lastName={yourRanking.lastName}
+          statusText={yourRanking.statusText}
+          image={yourRanking.image}
+        />
       </View>
 
-      {/* Titre de la section du classement */}
-      <Text style={styles.classementTitle}>Classement Général</Text>
-
-      {/* Liste des classements */}
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {classementData.map((person, index) => (
-          <View key={index} style={styles.classementCard}>
-            <Text style={styles.classementText}>{person.ranking}</Text>
-            <Text style={styles.classementText}>{person.firstName} {person.lastName}</Text>
-            <Text style={styles.classementText}>{person.points} points</Text>
-          </View>
+      {/* Section "Classement global" */}
+      <Text style={styles.sectionTitle}>Classement global</Text>
+      <ScrollView contentContainerStyle={styles.globalRanking}>
+        {globalRankingData.map((user, index) => (
+          <ProfileclassCard
+            key={user.id}
+            firstName={user.firstName}
+            lastName={user.lastName}
+            statusText={`${user.points} points`}
+            image={avatar}
+            rank={index + 1} // Passage du rang pour affichage
+          />
         ))}
       </ScrollView>
     </View>
@@ -48,68 +63,19 @@ export default function Page_Classement() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 20,
-    paddingHorizontal: 20,
-  },
-  profileCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30,
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  profileInfo: {
-    flex: 1,
-  },
-  profileName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  profileRanking: {
-    fontSize: 16,
-    color: 'green',
-    marginTop: 5,
-  },
-  profileImageContainer: {
-    marginLeft: 15,
-  },
-  profileImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  classementTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  scrollContainer: {
-    paddingBottom: 20,
-  },
-  classementCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 10,
-    marginVertical: 5,
     backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
   },
-  classementText: {
-    fontSize: 16,
+  sectionTitle: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  yourRanking: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  globalRanking: {
+    paddingBottom: 20,
   },
 });

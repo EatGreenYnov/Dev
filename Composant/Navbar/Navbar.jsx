@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Pour naviguer entre les écrans
+import logo from '../../assets/Logo.png';
 
 function Navbar() {
   const navigation = useNavigation(); // Hook pour gérer la navigation
 
   return (
     <View style={styles.navbar}>
-      {/* <Image source={require('../../assets/logo/chantallogo.jpg')} style={styles.logo} /> */}
+      <Image source={logo} style={styles.logo} />
       <View style={styles.linksContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Acceuil')}>
-          <Text style={styles.link}>Acceuil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Plats')}>
-          <Text style={styles.link}>Plats</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Accueil')}>
+          <Text style={styles.link}>Accueil</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('DEFI')}>
           <Text style={styles.link}>DEFI</Text>
