@@ -1,7 +1,9 @@
 import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Routes from './route/router';
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';   
+import Route from './route/router'; 
 import Page_Defi from './View/Page_defi/Page_Defi';
 import Navbar from './Composant/Navbar/Navbar';
 import { StyleSheet, View, Text } from 'react-native';
@@ -38,9 +40,10 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   if (Platform.OS === 'web') {
+    console.log('web');
     return (
       <NavigationContainer>
-        <Routes />
+        <Route />
       </NavigationContainer>
     );
   }
@@ -58,10 +61,10 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   screen: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
