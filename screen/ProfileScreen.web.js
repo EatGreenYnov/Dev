@@ -1,26 +1,25 @@
 import React from 'react';
 import Navbar from '../component/HomeComponent/NavBar';
 import styled from 'styled-components';
-import Chart from '../component/HomeComponent/Chart';
+import Profile from '../component/ProfileComponent/Profile';
 
-const Home = () => {
+const Screen = () => {
   return (
     <PageContainer>
       <Navbar />
 
       <Content>
-        <Chart />
+        <Profile />
       </Content>
     </PageContainer>
   );
 };
 
-export default Home;
+export default Screen;
 
 const PageContainer = styled.div`
   font-family: Arial, sans-serif;
-  height: 100%; /* Assure-toi que l'élément prend toute la hauteur */
-  overflow: auto; /* Permet le défilement si le contenu dépasse */
+  overflow: auto; 
 `;
 
 const Header = styled.div`
