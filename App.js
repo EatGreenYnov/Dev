@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Page_Defi from './View/Page_defi/Page_Defi';
 import CardComponent from './Composant/CardCompanent/CardComponent';  
@@ -6,6 +5,7 @@ import Navbar from './Composant/Navbar/Navbar';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Routes from './route/router';
 
 
 // Composants pour les écrans
@@ -54,6 +54,7 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <NavigationContainer>
+      <Routes />
     <Stack.Navigator initialRouteName="Accueil">
       <Stack.Screen name="Accueil" component={Accueil} />
       <Stack.Screen name="DEFI" component={Page_Defi} />
