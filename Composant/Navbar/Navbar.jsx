@@ -15,11 +15,11 @@ function Navbar() {
         <TouchableOpacity onPress={() => navigation.navigate('Plats')}>
           <Text style={styles.link}>Plats</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Boissons')}>
-          <Text style={styles.link}>Boissons</Text>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('DEFI')}>
           <Text style={styles.link}>DEFI</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Classement')}>
+          <Text style={styles.link}>Classement</Text>
         </TouchableOpacity>
       </View>
     </View>

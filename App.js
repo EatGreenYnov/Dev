@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Page_Defi from './View/Page_defi/Page_Defi';
+import Page_Classement from './View/Page_classement/Page_Classement';
 import CardComponent from './Composant/CardCompanent/CardComponent';  
 import Navbar from './Composant/Navbar/Navbar';
 import 'react-native-gesture-handler';
@@ -57,7 +58,7 @@ export default function App() {
     <Stack.Navigator initialRouteName="Accueil">
       <Stack.Screen name="Accueil" component={Accueil} />
       <Stack.Screen name="DEFI" component={Page_Defi} />
-      <Stack.Screen name="Boissons" component={Boissons} />
+      <Stack.Screen name="Classement" component={Page_Classement} />
       <Stack.Screen name="Plats" component={Plats} />
       <Stack.Screen name="Poissonnerie" component={Poissonnerie} />
     </Stack.Navigator>

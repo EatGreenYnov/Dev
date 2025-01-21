@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import * as Progress from 'react-native-progress'; // Import de la bibliothèque pour la barre de progression
 
-const ProfileCard = ({ image, firstName, lastName, progress }) => {
+const ProfilepgCard = ({ image, firstName, lastName, progress }) => {
   return (
     <View style={styles.card}>
       {/* Image à gauche */}
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileCard;
+export default ProfilepgCard;
