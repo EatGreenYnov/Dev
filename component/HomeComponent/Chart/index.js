@@ -1,44 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
-import styled from 'styled-components';
-import * as XLSX from 'xlsx'; // Import de la bibliothèque pour lire les fichiers Excel
 
 const ChartsComponent = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({ barData: null, doughnutData: null, lineData: null });
 
-  // Lecture du fichier Excel et transformation des données
-  const readExcelFile = (file) => {
-    const reader = new FileReader();
-    
-    reader.onload = (e) => {
-      const ab = e.target.result;
-      const wb = XLSX.read(ab, { type: 'array' });
-      const sheet = wb.Sheets[wb.SheetNames[0]]; // On récupère la première feuille
-      const rows = XLSX.utils.sheet_to_json(sheet); // Convertit la feuille en JSON
-
-      // Transformation des données en fonction des besoins des graphiques
-      processData(rows);
+  // Effectuer un GET pour récupérer les tickets depuis l'API backend
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/tickets');
+        const tickets = await response.json();
+        processData(tickets); // Processer les données après récupération
+      } catch (error) {
+        console.error('Erreur lors de la récupération des tickets:', error);
+      }
     };
 
-    reader.readAsArrayBuffer(file);
-  };
+    fetchTickets();
+  }, []);
 
-  // Traitement des données du fichier
-  const processData = (rows) => {
-    // Graphique à barres : Quantité par catégorie de produit
-    const categories = rows.reduce((acc, row) => {
-      const category = row['Catégorie'];
-      const quantity = row['Quantité (kg)'];
-      acc[category] = (acc[category] || 0) + quantity;
+  // Traitement des données
+  const processData = (tickets) => {
+    // Graphique à barres : Nombre de fois que chaque catégorie a été achetée
+    const categoriesCount = tickets.reduce((acc, ticket) => {
+      const category = ticket.Catégorie;
+      acc[category] = (acc[category] || 0) + 1; // Incrémenter pour chaque ticket
       return acc;
     }, {});
 
     const barData = {
-      labels: Object.keys(categories),
+      labels: Object.keys(categoriesCount),
       datasets: [
         {
-          label: 'Quantité par Catégorie (kg)',
-          data: Object.values(categories),
+          label: 'Nombre d\'achats par Catégorie',
+          data: Object.values(categoriesCount),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1,
@@ -46,11 +41,13 @@ const ChartsComponent = () => {
       ],
     };
 
-    // Graphique en anneau : Catégories qui polluent le plus (basé sur CO2)
-    const co2Data = rows.reduce((acc, row) => {
-      const category = row['Catégorie'];
-      const co2 = row['CO2_e_per_kg'] * row['Quantité (kg)'];
-      acc[category] = (acc[category] || 0) + co2;
+    // Graphique en anneau : Pollution par catégorie (uniquement une fois par catégorie)
+    const co2Data = tickets.reduce((acc, ticket) => {
+      const category = ticket.Catégorie;
+      const co2 = ticket['CO2_e_per_kg'] * ticket['Quantité (kg)']; // CO2 = CO2e_kg * Quantité
+      if (!acc[category]) {
+        acc[category] = co2; // On ne garde qu'une seule valeur de pollution par catégorie
+      }
       return acc;
     }, {});
 
@@ -59,18 +56,18 @@ const ChartsComponent = () => {
       datasets: [
         {
           data: Object.values(co2Data),
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#FFC300'],
         },
       ],
     };
 
-    // Graphique linéaire : Evolution du CO2 pour chaque ticket
+    // Graphique linéaire : Evolution du CO2 par ticket (limiter à 50 tickets)
     const lineData = {
-      labels: rows.map((row) => row['Date']),
+      labels: tickets.slice(0, 50).map(ticket => formatDate(ticket.Date)), // Limiter à 50 tickets et formater la date
       datasets: [
         {
-          label: 'CO2 par Ticket (kg)',
-          data: rows.map((row) => row['CO2_e_per_kg'] * row['Quantité (kg)']),
+          label: 'Évolution du CO2 par Ticket (kg)',
+          data: tickets.slice(0, 50).map(ticket => ticket['CO2_e_per_kg'] * ticket['Quantité (kg)']),
           fill: false,
           borderColor: '#42A5F5',
           tension: 0.1,
@@ -78,84 +75,36 @@ const ChartsComponent = () => {
       ],
     };
 
-    // Mise à jour de l'état avec les données transformées
-    setData({ barData, doughnutData, lineData });
+    setData({ barData, doughnutData, lineData }); // Mettre à jour l'état avec les données
   };
 
-  // Fonction pour gérer l'upload du fichier
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      readExcelFile(file);
-    }
+  // Fonction pour formater la date au format jj/mm/aaaa
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   return (
-    <ChartsContainer>
-      <UploadContainer>
-        <input 
-          type="file" 
-          accept=".xlsx, .xls"
-          onChange={handleFileUpload}
-        />
-      </UploadContainer>
+    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', padding: '20px' }}>
+      <div style={{ width: '48%', margin: '10px 0', padding: '20px', backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
+        <h3>Nombre d'achats par catégorie de produit</h3>
+        {data.barData ? <Chart type="bar" data={data.barData} /> : <p>Chargement...</p>}
+      </div>
 
-      {data ? (
-        <>
-          <ChartWrapper>
-            <h2>Graphique à Barres</h2>
-            <Chart type="bar" data={data.barData} />
-          </ChartWrapper>
+      <div style={{ width: '48%', margin: '10px 0', padding: '20px', backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
+        <h3>Moyenne de pollution par catégorie en CO2_e_per_kg</h3>
+        {data.doughnutData ? <Chart type="doughnut" data={data.doughnutData} /> : <p>Chargement...</p>}
+      </div>
 
-          <ChartWrapper>
-            <h2>Graphique en Anneau</h2>
-            <Chart type="doughnut" data={data.doughnutData} />
-          </ChartWrapper>
-
-          <ChartWrapper>
-            <h2>Graphique Linéaire</h2>
-            <Chart type="line" data={data.lineData} />
-          </ChartWrapper>
-        </>
-      ) : (
-        <p>Veuillez importer un fichier Excel pour afficher les graphiques.</p>
-      )}
-    </ChartsContainer>
+      <div style={{ width: '48%', margin: '10px 0', padding: '20px', backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
+        <h3>Évolution du CO2 par Ticket</h3>
+        {data.lineData ? <Chart type="line" data={data.lineData} /> : <p>Chargement...</p>}
+      </div>
+    </div>
   );
 };
 
 export default ChartsComponent;
-
-const ChartsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 20px;
-`;
-
-const ChartWrapper = styled.div`
-  width: 48%;
-  margin: 10px 0;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  text-align: center;
-  height: auto;
-  overflow: auto;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin: 10px 0;
-  }
-`;
-
-const UploadContainer = styled.div`
-  margin-bottom: 20px;
-  text-align: center;
-
-  input[type="file"] {
-    padding: 10px;
-    font-size: 16px;
-  }
-`;
