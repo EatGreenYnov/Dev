@@ -82,6 +82,10 @@ const ChartWrapper = styled.div`
   border-radius: 8px;
   text-align: center;
   height: auto;
-  overflow: auto
-`;
+  overflow: auto;
 
+  @media (max-width: 768px) {
+    width: 100%;  /* Sur les petits écrans, occuper toute la largeur */
+    margin: 10px 0;
+  }
+`;

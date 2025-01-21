@@ -10,22 +10,20 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const items = [
-    { label: 'Accueil', icon: <AntDesign name="home" size={20} color="black" />, url: '/' },
-    { label: 'Tips', icon: <AntDesign name="bulb1" size={20} color="black" />, url: '/about' },
-    { label: 'Communauté', icon: <AntDesign name="team" size={20} color="black" />, url: '/contact' }
+    { label: 'Accueil', icon: <AntDesign name="home" size={20} color="black" />, command: () => navigate('/') },
+    { label: 'Tips', icon: <AntDesign name="bulb1" size={20} color="black" />, command: () => navigate('/tips') },
+    { label: 'Communauté', icon: <AntDesign name="team" size={20} color="black" />, command: () => navigate('/community') },
   ];
 
   return (
-    <>
-      <ContentWrapper>
-        <NavbarContainer>
-          <NavbarContent>
-            <Menubar model={items} className="custom-menubar" />
-            <UserMenu />
-          </NavbarContent>
-        </NavbarContainer>
-      </ContentWrapper>
-    </>
+    <ContentWrapper>
+      <NavbarContainer>
+        <NavbarContent>
+          <Menubar model={items} className="custom-menubar" />
+          <UserMenu />
+        </NavbarContent>
+      </NavbarContainer>
+    </ContentWrapper>
   );
 };
 
@@ -52,15 +50,3 @@ const ContentWrapper = styled.div`
   padding-top: 60px; /* Ajuste le padding pour éviter que le contenu soit caché sous la navbar */
 `;
 
-const CustomMenubar = styled(Menubar)`
-  .p-menuitem {
-    margin-right: 30px; /* Espacement entre les items */
-  }
-`;
-
-const PageContainer = styled.div`
-  font-family: Arial, sans-serif;
-  padding-top: 60px; /* Laisse de l'espace pour la navbar fixe */
-  height: 100%; /* Assure que l'élément prend toute la hauteur */
-  overflow: auto; /* Permet le défilement */
-`;
