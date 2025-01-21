@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "EatGreen",
-    "slug": "EatGreen",
+    "name": "hackatonjs",
+    "slug": "hackatonjs",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,6 +23,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fa400b13-eea8-4eb2-bad7-8f1bbf067cb8"
+      }
+    },
+    "owner": "reitlaug"
   }
 }
