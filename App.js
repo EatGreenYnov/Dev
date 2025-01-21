@@ -61,10 +61,10 @@ export default function App() {
   );
 }
 
-// const styles = StyleSheet.create({
-//   screen: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

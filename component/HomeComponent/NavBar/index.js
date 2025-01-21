@@ -12,7 +12,7 @@ const Navbar = () => {
   const items = [
     { label: 'Accueil', icon: <AntDesign name="home" size={20} color="black" />, command: () => navigate('/') },
     { label: 'Tips', icon: <AntDesign name="bulb1" size={20} color="black" />, command: () => navigate('/tips') },
-    { label: 'Communauté', icon: <AntDesign name="team" size={20} color="black" />, command: () => navigate('/community') },
+    { label: 'Communauté', icon: <AntDesign name="team" size={20} color="black" />, command: () => navigate('/login') },
   ];
 
   return (
